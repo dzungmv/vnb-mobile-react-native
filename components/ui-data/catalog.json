@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "name": "Badminton Racket",
+        "href": "Badminton-Racket",
+        "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/racket.webp"
+    },
+    {
+        "id": 2,
+        "name": "Badminton Shoes",
+        "href": "Badminton-Shoes",
+        "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/shoes.webp"
+    },
+    {
+        "id": 3,
+        "name": "Badminton Shirt",
+        "href": "Badminton-Shirt",
+        "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/shirt.webp"
+    },
+    {
+        "id": 4,
+        "name": "Badminton Skirt",
+        "href": "Badminton-Skirt",
+        "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/skirt.webp"
+    },
+    {
+        "id": 5,
+        "name": "Badminton Pants",
+        "href": "Badminton-Pants",
+        "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/paint.webp"
+    },
+    {
+        "id": 6,
+        "name": "Badminton Bag",
+        "href": "Badminton-Bag",
+        "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/bag.webp"
+    },
+    {
+        "id": 7,
+        "name": "Badminton Backpack",
+        "href": "Badminton-Backpack",
+        "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/balo.webp"
+    },
+    {
+        "id": 8,
+        "name": "Badminton Accessories",
+        "href": "Badminton-Accessories",
+        "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/equip.webp"
+    }
+]
