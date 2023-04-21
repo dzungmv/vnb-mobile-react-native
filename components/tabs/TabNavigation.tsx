@@ -9,6 +9,7 @@ import CartSC from '../../screens/cart';
 import PersonalSC from '../../screens/personal';
 import NofiicationsSC from '../../screens/notifications';
 import ProductsSC from '../../screens/products';
+import ProductStack from '../stacks/product-stack';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,7 +47,7 @@ export default function TabNavigation() {
                     ),
                 }}
                 name='Products'
-                component={ProductsSC}
+                component={ProductStack}
             />
 
             <Tab.Screen

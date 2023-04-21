@@ -7,6 +7,7 @@ export default function MainStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name='MainFC' component={HomeSC} />
+            {/* <Stack.Screen name='ProductDetails' component={ProductDetails} /> */}
         </Stack.Navigator>
     );
 }

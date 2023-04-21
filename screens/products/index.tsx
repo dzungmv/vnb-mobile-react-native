@@ -1,4 +1,6 @@
+import { AntDesign } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
@@ -7,23 +9,20 @@ import {
     Image,
     SafeAreaView,
     Text,
-    TouchableHighlight,
     TouchableOpacity,
     View,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import axios from 'axios';
 
 import Config from 'react-native-config';
 
-import Search from '../../components/search';
 import { Dimensions } from 'react-native';
+import Search from '../../components/search';
 
-import { ProductCard, ProductType } from '../../components/types';
 import {
     CompositeNavigationProp,
     useNavigation,
 } from '@react-navigation/native';
+import { ProductCard, ProductType } from '../../components/types';
 
 const gap = 10;
 Config.SERVER_URL;
@@ -49,7 +48,7 @@ const ProductsSC: React.FC = () => {
                     setHasMore(false);
                 }
 
-                setProducts((prevData) => [...prevData, res?.data?.data]);
+                setProducts((prevData) => [...prevData, ...res?.data?.data]);
                 setIsLoading(false);
             } catch (error) {
                 setHasMore(false);
@@ -68,8 +67,6 @@ const ProductsSC: React.FC = () => {
             </View>
         ) : null;
     };
-
-    console.log('page', page);
 
     return (
         <SafeAreaView className='flex-1 mb-[90px]'>
@@ -114,9 +111,9 @@ const ProductsSC: React.FC = () => {
                         keyExtractor={(item) => item._id}
                         ListFooterComponent={Pending}
                         onEndReached={() => {
-                            if (hasMore) setPage((prev) => prev + 1);
+                            if (hasMore) setPage((prevPage) => prevPage + 1);
                         }}
-                        onEndReachedThreshold={0}
+                        onEndReachedThreshold={0.1}
                     />
                 )}
             </View>
@@ -134,6 +131,8 @@ const ProductItem: React.FC<ProductCard> = ({
     slug,
     data,
 }) => {
+    const navigation = useNavigation<CompositeNavigationProp<any, any>>();
+
     const numColumns = 2;
     const paddingX = 12;
     const screenWidth = Dimensions.get('window').width;
@@ -143,7 +142,9 @@ const ProductItem: React.FC<ProductCard> = ({
     return (
         <TouchableOpacity
             className='rounded-[10px] shadow-sm p-3 relative'
-            onPress={() => Alert.alert(data._id)}
+            onPress={() =>
+                navigation.navigate('ProductDetails', { data: data })
+            }
             style={{
                 width: itemSize,
                 backgroundColor: 'white',
@@ -152,8 +153,8 @@ const ProductItem: React.FC<ProductCard> = ({
                 <View className='pb-5'>
                     <Image
                         source={{ uri: image }}
-                        className='w-full h-[250px] rounded-[10px]'
-                        resizeMode='cover'
+                        className='w-full h-[300px] rounded-[10px] mix-blend-multiply'
+                        resizeMode='contain'
                     />
                     <Text className='text-center text-base'>{name}</Text>
                 </View>
