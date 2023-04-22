@@ -1,9 +1,12 @@
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, ScrollView, Text } from 'react-native';
+import HeaderCmp from '../../components/common/header';
 
 const CartSC: React.FC = () => {
     return (
-        <SafeAreaView>
-            <Text>Cart</Text>
+        <SafeAreaView className='flex-1'>
+            <ScrollView>
+                <HeaderCmp title='Ordered' />
+            </ScrollView>
         </SafeAreaView>
     );
 };

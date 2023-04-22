@@ -1,16 +1,8 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { useLayoutEffect, useState } from 'react';
-import {
-    Image,
-    SafeAreaView,
-    ScrollView,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import { Logo } from '../../assets';
-import Search from '../../components/search';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import HeaderCmp from '../../components/common/header';
 import CatalogCmp from './catalog';
 
 const HomeSC: React.FC = () => {
@@ -26,26 +18,11 @@ const HomeSC: React.FC = () => {
     }, []);
     return (
         <SafeAreaView className='flex-1 bg-white'>
-            <ScrollView>
-                <View className='flex-row items-center justify-between gap-4 px-5'>
-                    <Image
-                        source={Logo}
-                        className='w-[60px] h-[60px] object-cover'
-                    />
-                    <TouchableOpacity
-                        className=' h-10 w-10 flex items-center justify-center rounded-full bg-gray-300'
-                        onPress={() => setSearchContainer(!searchContainer)}>
-                        <FontAwesome name='search' size={25} />
-                    </TouchableOpacity>
-                </View>
-                {searchContainer && (
-                    <Search closeSearch={() => setSearchContainer(false)} />
-                )}
+            <HeaderCmp title='Home' isHome />
 
-                <View className='mt-10'>
-                    <CatalogCmp />
-                </View>
-            </ScrollView>
+            <View className='mt-10'>
+                <CatalogCmp />
+            </View>
         </SafeAreaView>
     );
 };

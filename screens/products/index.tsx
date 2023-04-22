@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
-    Alert,
     FlatList,
     Image,
     SafeAreaView,
@@ -99,7 +98,7 @@ const ProductsSC: React.FC = () => {
                         renderItem={({ item }) => {
                             return (
                                 <ProductItem
-                                    id={item._id}
+                                    _id={item._id}
                                     name={item.name}
                                     price={item.price}
                                     image={item.image}
@@ -108,7 +107,7 @@ const ProductsSC: React.FC = () => {
                                 />
                             );
                         }}
-                        keyExtractor={(item) => item._id}
+                        keyExtractor={(item, index) => index.toString()}
                         ListFooterComponent={Pending}
                         onEndReached={() => {
                             if (hasMore) setPage((prevPage) => prevPage + 1);
@@ -124,7 +123,7 @@ const ProductsSC: React.FC = () => {
 export default ProductsSC;
 
 const ProductItem: React.FC<ProductCard> = ({
-    id,
+    _id,
     name,
     price,
     image,

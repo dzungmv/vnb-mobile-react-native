@@ -1,15 +1,11 @@
+import { AntDesign, Entypo, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Entypo } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
 
-import MainStack from '../stacks/main-stack';
 import CartSC from '../../screens/cart';
-import PersonalSC from '../../screens/personal';
 import NofiicationsSC from '../../screens/notifications';
-import ProductsSC from '../../screens/products';
-import ProductStack from '../stacks/product-stack';
+import PersonalSC from '../../screens/personal';
+import { HomeStack } from '../stacks/home-stack';
+import { ProductStack } from '../stacks/product-stack';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +28,7 @@ export default function TabNavigation() {
                     ),
                 }}
                 name='Home'
-                component={MainStack}
+                component={HomeStack}
             />
 
             <Tab.Screen
@@ -46,7 +42,7 @@ export default function TabNavigation() {
                         />
                     ),
                 }}
-                name='Products'
+                name='RootProducts'
                 component={ProductStack}
             />
 
@@ -54,14 +50,14 @@ export default function TabNavigation() {
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <Entypo
-                            name='shopping-cart'
+                        <AntDesign
+                            name='tags'
                             size={30}
                             color={focused ? '#FF2461' : 'gray'}
                         />
                     ),
                 }}
-                name='Cart'
+                name='Ordered'
                 component={CartSC}
             />
 

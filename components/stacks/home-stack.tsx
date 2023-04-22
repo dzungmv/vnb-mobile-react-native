@@ -1,16 +1,16 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ProductDetails from '../../screens/products/product-details';
-import TabNavigation from '../tabs/TabNavigation';
+import HomeSC from '../../screens/home';
 
 const Stack = createNativeStackNavigator();
 
-export default function MainStack() {
+export const HomeStack = () => {
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
             }}>
-            <Stack.Screen name='Root' component={TabNavigation} />
+            <Stack.Screen name='HomeStack' component={HomeSC} />
+            {/* <Stack.Screen name='ProductDetails' component={ProductDetails} /> */}
         </Stack.Navigator>
     );
-}
+};

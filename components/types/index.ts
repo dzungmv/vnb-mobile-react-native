@@ -1,5 +1,5 @@
 export type ProductCard = {
-    id: string | number;
+    _id: string | number;
     name: string;
     slug: string;
     price: number;
@@ -23,4 +23,29 @@ export type ProductType = {
     description: string,
     createdAt: string,
     updatedAt: string
+}
+
+export type UserTypes = {
+
+    user: {
+        _id: string | number;
+        name: string;
+        email: string;
+        role: string;
+        verified: boolean;
+    },
+    tokens: {
+        accessToken: string;
+        refreshToken: string;
+    }
+
+}
+
+export type CartType = {
+    _id: string,
+    productId: string,
+    product_name: string,
+    product_image: string,
+    product_price: number,
+    product_quantity: number,
 }

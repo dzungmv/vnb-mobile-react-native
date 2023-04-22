@@ -45,6 +45,8 @@ const ProductDetails = () => {
                             color='black'
                         />
                     </TouchableOpacity>
+
+                    <View></View>
                 </View>
                 <View className=''>
                     <Image
@@ -90,16 +92,21 @@ const ProductDetails = () => {
                         </TouchableOpacity>
                     </View>
 
-                    <View className='mt-14'>
-                        <Text className='text-xl font-medium'>Description</Text>
+                    {product?.description &&
+                        product?.description?.length > 0 && (
+                            <View className='mt-14'>
+                                <Text className='text-xl font-medium'>
+                                    Description
+                                </Text>
 
-                        <View>
-                            <RenderHtml
-                                contentWidth={width}
-                                source={{ html: product?.description }}
-                            />
-                        </View>
-                    </View>
+                                <View>
+                                    <RenderHtml
+                                        contentWidth={width}
+                                        source={{ html: product?.description }}
+                                    />
+                                </View>
+                            </View>
+                        )}
                 </View>
             </ScrollView>
         </SafeAreaView>
