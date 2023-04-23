@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 
-import { FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons, Zocial } from '@expo/vector-icons';
 
 import { ProductType } from '../../components/types';
 
@@ -37,7 +37,7 @@ const ProductDetails = () => {
     return (
         <SafeAreaView className='flex-1 bg-white relative'>
             <ScrollView>
-                <View className='px-3'>
+                <View className='px-4'>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Ionicons
                             name='arrow-back-sharp'
@@ -45,8 +45,6 @@ const ProductDetails = () => {
                             color='black'
                         />
                     </TouchableOpacity>
-
-                    <View></View>
                 </View>
                 <View className=''>
                     <Image
@@ -56,7 +54,7 @@ const ProductDetails = () => {
                     />
                 </View>
 
-                <View className='px-5 mt-5'>
+                <View className='px-4 mt-5'>
                     <Text className='text-[22px] font-medium '>
                         {product?.name}
                     </Text>
@@ -85,11 +83,17 @@ const ProductDetails = () => {
                     </View>
 
                     <View className='mt-10'>
-                        <TouchableOpacity className='flex justify-center items-center py-4 rounded-[10px] bg-black'>
-                            <Text className='text-white text-xl font-medium'>
-                                <Ionicons name='cart' size={20} /> Add to cart
-                            </Text>
-                        </TouchableOpacity>
+                        <View className='flex-row justify-between items-center'>
+                            <View>
+                                <Zocial name='cart' size={32} color='black' />
+                            </View>
+                            <TouchableOpacity className='flex justify-center items-center py-3 px-3 rounded-[10px] bg-black'>
+                                <Text className='text-white text-xl font-medium'>
+                                    <Ionicons name='cart' size={20} /> Add to
+                                    cart
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                     {product?.description &&

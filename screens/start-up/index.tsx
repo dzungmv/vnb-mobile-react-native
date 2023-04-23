@@ -54,7 +54,7 @@ const StartUpSC: React.FC = () => {
                 />
 
                 <TouchableOpacity
-                    onPress={() => navigation.push('Products')}
+                    onPress={() => navigation.push('Login')}
                     className=' absolute bottom-20'>
                     <View className='bg-primary px-10 py-4 rounded-[55px]'>
                         <Text className='text-[20px] font-medium text-white '>

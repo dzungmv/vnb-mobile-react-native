@@ -50,14 +50,14 @@ export default function TabNavigation() {
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <AntDesign
-                            name='tags'
+                        <Ionicons
+                            name='cart-sharp'
                             size={30}
                             color={focused ? '#FF2461' : 'gray'}
                         />
                     ),
                 }}
-                name='Ordered'
+                name='Cart'
                 component={CartSC}
             />
 

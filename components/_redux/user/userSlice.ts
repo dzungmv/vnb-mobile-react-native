@@ -8,8 +8,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState: {
         user: {} as UserTypes,
-        cart: [] as CartType[],
-        isLogin: false
+
 
     },
     reducers: {
@@ -19,18 +18,18 @@ const userSlice = createSlice({
         setVerified: (state, action) => {
             state.user.user.verified = action.payload
         },
-        setCart: (state, action) => {
-            state.cart = action.payload
-        },
-        removeCart: (state) => {
-            state.cart = [] as CartType[]
-        },
+        // setCart: (state, action) => {
+        //     state.cart = action.payload
+        // },
+        // removeCart: (state) => {
+        //     state.cart = [] as CartType[]
+        // },
         logout: (state) => {
             state.user = {} as UserTypes
-            state.cart = [] as CartType[]
+            // state.cart = [] as CartType[]
         }
     }
 })
 
-export const { setUser, setVerified, setCart, removeCart, logout } = userSlice.actions;
+export const { setUser, setVerified, logout } = userSlice.actions;
 export default userSlice.reducer;

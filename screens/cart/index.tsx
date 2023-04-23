@@ -5,7 +5,7 @@ const CartSC: React.FC = () => {
     return (
         <SafeAreaView className='flex-1'>
             <ScrollView>
-                <HeaderCmp title='Ordered' />
+                <HeaderCmp title='Cart' />
             </ScrollView>
         </SafeAreaView>
     );

@@ -18,7 +18,7 @@ const HeaderCmp = ({ title, isHome = false, titleColor }: HeaderProps) => {
                     <Text
                         className=' text-2xl font-bold'
                         style={{
-                            color: `${titleColor}`,
+                            color: titleColor,
                         }}>
                         {title}
                     </Text>
