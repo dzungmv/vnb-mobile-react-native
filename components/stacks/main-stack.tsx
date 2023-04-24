@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
+import AccountVerifySC from '../../screens/auth/account-verify';
 import LoginSC from '../../screens/auth/login';
 import RegisterSC from '../../screens/auth/register';
 import StartUpSC from '../../screens/start-up';

@@ -11,7 +11,7 @@ import {
 
 import axios from 'axios';
 import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Logo } from '../../assets';
 import LoadingScreen from '../../components/common/loading-screen';
 import { setUser } from '../../components/_redux/user/userSlice';
@@ -19,6 +19,7 @@ import {
     CompositeNavigationProp,
     useNavigation,
 } from '@react-navigation/native';
+import { UserTypes } from '../../components/types';
 
 const RegisterSC: React.FC = () => {
     const navigation = useNavigation<CompositeNavigationProp<any, any>>();
@@ -54,7 +55,6 @@ const RegisterSC: React.FC = () => {
             nameRef?.current?.focus();
             return;
         }
-
         if (email.length === 0) {
             Alert.alert(
                 'Email is required',
@@ -63,7 +63,6 @@ const RegisterSC: React.FC = () => {
             emailRef?.current?.focus();
             return;
         }
-
         if (password.length === 0) {
             Alert.alert(
                 'Password is required',
@@ -72,7 +71,6 @@ const RegisterSC: React.FC = () => {
             passwordRef?.current?.focus();
             return;
         }
-
         if (confirmPassword.length === 0) {
             Alert.alert(
                 'Confirm is required',
@@ -81,7 +79,6 @@ const RegisterSC: React.FC = () => {
             confirmPasswordRef?.current?.focus();
             return;
         }
-
         if (password !== confirmPassword) {
             Alert.alert(
                 'Password does not match',
@@ -90,14 +87,11 @@ const RegisterSC: React.FC = () => {
             confirmPasswordRef?.current?.focus();
             return;
         }
-
         if (!validateEmail(email)) {
             Alert.alert('Invalid email', 'Please enter a valid email');
             emailRef?.current?.focus();
             return;
         }
-        6;
-
         try {
             setLoading(true);
             const res = await axios.post(
@@ -108,9 +102,7 @@ const RegisterSC: React.FC = () => {
                     password,
                 }
             );
-
             await dispatch(setUser(res?.data?.metadata));
-
             setLoading(false);
         } catch (error: any) {
             setLoading(false);

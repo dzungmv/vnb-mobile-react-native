@@ -4,36 +4,145 @@ import {
     useNavigation,
     useRoute,
 } from '@react-navigation/native';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import {
+    Alert,
     Dimensions,
     Image,
     SafeAreaView,
     ScrollView,
     Text,
+    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 
-import { FontAwesome5, Ionicons, Zocial } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons, AntDesign } from '@expo/vector-icons';
 
-import { ProductType } from '../../components/types';
+import { ProductType, UserTypes } from '../../components/types';
+import { useDispatch, useSelector } from 'react-redux';
+import LoadingScreen from '../../components/common/loading-screen';
+import axios from 'axios';
+import { logout } from '../../components/_redux/user/userSlice';
 
 const ProductDetails = () => {
+    const width = Dimensions.get('window').width;
+
     const navigation = useNavigation<CompositeNavigationProp<any, any>>();
+    const dispatch = useDispatch();
     const router =
         useRoute<RouteProp<Record<string, { data: ProductType }>, string>>();
 
+    const user: UserTypes = useSelector((state: any) => state.user.user);
+
     const product = router?.params?.data;
 
-    const width = Dimensions.get('window').width;
+    const [quantity, setQuantity] = useState(1);
+    const [isPending, setIsPending] = useState(false);
+    const [pendingVerify, setPendingVerify] = useState(false);
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerShown: false,
-        });
-    }, []);
+    const HANDLE = {
+        setQuantityIncrease: () => {
+            if (quantity > product?.quantity) {
+                return;
+            }
+            setQuantity((prev) => prev + 1);
+        },
+
+        setQuantityDecrease: () => {
+            setQuantity((prev) => (prev <= 1 ? 1 : prev - 1));
+        },
+
+        addToCart: async () => {
+            if (!user?.user?.verified) {
+                Alert.alert(
+                    'Account not verified',
+                    'Please verify your email to use our services',
+                    [
+                        {
+                            text: 'Later',
+                        },
+                        {
+                            text: 'Verify now',
+                            onPress: async () => {
+                                try {
+                                    setPendingVerify(true);
+                                    await axios.post(
+                                        `http://localhost:8080/api/vnb/v1/auth/send-otp`,
+                                        {
+                                            email: user?.user?.email,
+                                        },
+                                        {
+                                            headers: {
+                                                authorization:
+                                                    user?.tokens?.accessToken,
+                                                'x-client-id': user?.user?._id,
+                                            },
+                                        }
+                                    );
+                                    setPendingVerify(false);
+                                    navigation.navigate(
+                                        'AccountVerifyHomeStack'
+                                    );
+                                } catch (error: any) {
+                                    setPendingVerify(false);
+                                    Alert.alert(
+                                        'Error',
+                                        error?.response?.data?.message ||
+                                            'Something went wrong!'
+                                    );
+                                }
+                            },
+                        },
+                    ]
+                );
+                return;
+            }
+
+            const data = {
+                productId: product._id,
+                product_name: product.name,
+                product_price: product.price,
+                product_image: product.image,
+                product_quantity: quantity,
+            };
+
+            try {
+                setIsPending(true);
+                await axios.post(
+                    `http://localhost:8080/api/vnb/v1/user/add-cart`,
+                    {
+                        product: data,
+                    },
+                    {
+                        headers: {
+                            authorization: user?.tokens?.accessToken,
+                            'x-client-id': user?.user?._id,
+                        },
+                    }
+                );
+                setIsPending(false);
+                Alert.alert('Success', 'Added to cart successfully', [
+                    {
+                        text: 'OK',
+                    },
+                    {
+                        text: 'View cart',
+                        onPress: () => {
+                            navigation.navigate('Cart');
+                        },
+                    },
+                ]);
+            } catch (error: any) {
+                setIsPending(false);
+                if (error?.response?.status === 401) {
+                    dispatch(logout());
+                }
+            }
+        },
+    };
+
     return (
         <SafeAreaView className='flex-1 bg-white relative'>
             <ScrollView>
@@ -84,10 +193,45 @@ const ProductDetails = () => {
 
                     <View className='mt-10'>
                         <View className='flex-row justify-between items-center'>
-                            <View>
-                                <Zocial name='cart' size={32} color='black' />
+                            <View className='flex-row items-center'>
+                                <TouchableOpacity
+                                    className=' mr-1'
+                                    onPress={HANDLE.setQuantityDecrease}>
+                                    <AntDesign
+                                        name='minuscircle'
+                                        size={32}
+                                        color={
+                                            quantity === 1 ? 'gray' : 'black'
+                                        }
+                                    />
+                                </TouchableOpacity>
+                                <TextInput
+                                    className='flex text-2xl px-10 border border-gray-300 rounded-xl'
+                                    textAlign='center'
+                                    keyboardType='numeric'
+                                    value={quantity.toString()}
+                                    onChangeText={(num) =>
+                                        setQuantity(Number(num))
+                                    }
+                                    style={{
+                                        textAlignVertical: 'center',
+                                        paddingBottom: 0,
+                                        paddingTop: 0,
+                                    }}
+                                />
+                                <TouchableOpacity
+                                    className=' ml-1'
+                                    onPress={HANDLE.setQuantityIncrease}>
+                                    <AntDesign
+                                        name='pluscircle'
+                                        size={32}
+                                        color='black'
+                                    />
+                                </TouchableOpacity>
                             </View>
-                            <TouchableOpacity className='flex justify-center items-center py-3 px-3 rounded-[10px] bg-black'>
+                            <TouchableOpacity
+                                className='flex justify-center items-center py-3 px-3 rounded-[10px] bg-black'
+                                onPress={HANDLE.addToCart}>
                                 <Text className='text-white text-xl font-medium'>
                                     <Ionicons name='cart' size={20} /> Add to
                                     cart
@@ -113,6 +257,8 @@ const ProductDetails = () => {
                         )}
                 </View>
             </ScrollView>
+
+            {isPending && <LoadingScreen />}
         </SafeAreaView>
     );
 };

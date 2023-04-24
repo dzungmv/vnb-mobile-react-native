@@ -49,3 +49,16 @@ export type CartType = {
     product_price: number,
     product_quantity: number,
 }
+
+export type OrderType = {
+    _id: string,
+    products: CartType[],
+    total: number,
+    status: string,
+    fullname: string,
+    address: string,
+    phone: string,
+    payment: string,
+    createdAt: string,
+    updatedAt: string
+}

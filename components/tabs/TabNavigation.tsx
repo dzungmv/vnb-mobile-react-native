@@ -1,15 +1,22 @@
 import { AntDesign, Entypo, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import CartSC from '../../screens/cart';
 import NofiicationsSC from '../../screens/notifications';
+import OrderSC from '../../screens/order';
 import PersonalSC from '../../screens/personal';
+import { CartStack } from '../stacks/cart-stack';
 import { HomeStack } from '../stacks/home-stack';
 import { ProductStack } from '../stacks/product-stack';
+import { UserTypes } from '../types';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigation() {
+    const user: UserTypes = useSelector((state: any) => state.user.user);
+
     return (
         <Tab.Navigator
             screenOptions={{
@@ -42,7 +49,7 @@ export default function TabNavigation() {
                         />
                     ),
                 }}
-                name='RootProducts'
+                name='Products'
                 component={ProductStack}
             />
 
@@ -58,27 +65,28 @@ export default function TabNavigation() {
                     ),
                 }}
                 name='Cart'
-                component={CartSC}
+                component={CartStack}
             />
 
             <Tab.Screen
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
-                        <Entypo
-                            name='bell'
+                        <AntDesign
+                            name='tags'
                             size={30}
                             color={focused ? '#FF2461' : 'gray'}
                         />
                     ),
                 }}
-                name='Notifications'
-                component={NofiicationsSC}
+                name='Ordering'
+                component={OrderSC}
             />
 
             <Tab.Screen
                 options={{
                     headerShown: false,
+                    tabBarBadge: !user?.user?.verified ? '!' : undefined,
                     tabBarIcon: ({ focused }) => (
                         <FontAwesome
                             name='user'

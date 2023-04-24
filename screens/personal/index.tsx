@@ -1,4 +1,10 @@
-import { AntDesign, Entypo, Ionicons, FontAwesome } from '@expo/vector-icons';
+import {
+    AntDesign,
+    Entypo,
+    FontAwesome,
+    Ionicons,
+    MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import {
     Alert,
     SafeAreaView,
@@ -11,13 +17,13 @@ import {
     CompositeNavigationProp,
     useNavigation,
 } from '@react-navigation/native';
+import axios from 'axios';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import HeaderCmp from '../../components/common/header';
+import LoadingScreen from '../../components/common/loading-screen';
 import { UserTypes } from '../../components/types';
 import { logout } from '../../components/_redux/user/userSlice';
-import { useState } from 'react';
-import axios from 'axios';
-import LoadingScreen from '../../components/common/loading-screen';
 
 const PersonalSC: React.FC = () => {
     const navigation = useNavigation<CompositeNavigationProp<any, any>>();
@@ -25,9 +31,36 @@ const PersonalSC: React.FC = () => {
     const user: UserTypes = useSelector((state: any) => state.user.user);
     const dispatch = useDispatch();
 
+    const [pendingVerify, setPendingVerify] = useState<boolean>(false);
+
     const [logoutPending, setLogoutPending] = useState<boolean>(false);
 
     const HANDLE = {
+        verifyAccount: async () => {
+            try {
+                setPendingVerify(true);
+                await axios.post(
+                    `http://localhost:8080/api/vnb/v1/auth/send-otp`,
+                    {
+                        email: user?.user?.email,
+                    },
+                    {
+                        headers: {
+                            authorization: user?.tokens?.accessToken,
+                            'x-client-id': user?.user?._id,
+                        },
+                    }
+                );
+                setPendingVerify(false);
+                navigation.navigate('AccountVerifyHomeStack');
+            } catch (error: any) {
+                setPendingVerify(false);
+                Alert.alert(
+                    'Error',
+                    error?.response?.data?.message || 'Something went wrong!'
+                );
+            }
+        },
         logout: async () => {
             try {
                 setLogoutPending(true);
@@ -65,16 +98,44 @@ const PersonalSC: React.FC = () => {
                         </View>
                     </View>
 
-                    <Text className='ml-2 text-2xl font-bold mt-5'>
-                        {user?.user?.name}
-                    </Text>
+                    <View className='flex-row items-center'>
+                        <Text className='text-2xl font-bold mt-5'>
+                            {user?.user?.name}{' '}
+                        </Text>
+                        {user?.user?.verified && (
+                            <View className='mt-5'>
+                                <AntDesign
+                                    name='checkcircle'
+                                    size={20}
+                                    color='green'
+                                />
+                            </View>
+                        )}
+                    </View>
                 </View>
 
                 <View className='mt-4'>
+                    {!user?.user?.verified && (
+                        <TouchableOpacity
+                            className='px-4 py-2 mt-4 flex-row rounded-lg items-center'
+                            onPress={HANDLE.verifyAccount}>
+                            <View className='w-[40px] h-[40px] flex items-center justify-center rounded-3xl bg-red-500'>
+                                <MaterialCommunityIcons
+                                    name='account-check'
+                                    size={27}
+                                    color='white'
+                                />
+                            </View>
+                            <Text className='ml-2 text-xl font-medium text-red-500'>
+                                Account not verified, verify now
+                            </Text>
+                        </TouchableOpacity>
+                    )}
+
                     <TouchableOpacity
                         onPress={() => navigation.navigate('Ordered')}
-                        className='w-[50%] px-4 mt-4 flex-row rounded-lg py-2 items-center'>
-                        <View className='w-[40px] h-[40px] flex items-center justify-center rounded-3xl bg-red-500'>
+                        className='px-4 mt-4 flex-row rounded-lg py-2 items-center'>
+                        <View className='w-[40px] h-[40px] flex items-center justify-center rounded-3xl bg-blue-500'>
                             <AntDesign name='tags' size={27} color='white' />
                         </View>
 
@@ -82,7 +143,8 @@ const PersonalSC: React.FC = () => {
                             Ordered
                         </Text>
                     </TouchableOpacity>
-                    <View className='w-[50%] px-4 py-2 mt-4 flex-row rounded-lg'>
+
+                    <View className='w-[50%] px-4 py-2 mt-4 flex-row items-center rounded-lg'>
                         <View className='w-[40px] h-[40px] flex items-center justify-center rounded-3xl bg-violet-500'>
                             <Ionicons
                                 name='cart-sharp'
@@ -108,7 +170,7 @@ const PersonalSC: React.FC = () => {
                 </View>
             </View>
 
-            {logoutPending && <LoadingScreen />}
+            {(logoutPending || pendingVerify) && <LoadingScreen />}
         </SafeAreaView>
     );
 };
