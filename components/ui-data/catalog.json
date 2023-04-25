@@ -2,49 +2,49 @@
     {
         "id": 1,
         "name": "Badminton Racket",
-        "href": "Badminton-Racket",
+        "href": "RacketProducts",
         "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/racket.webp"
     },
     {
         "id": 2,
         "name": "Badminton Shoes",
-        "href": "Badminton-Shoes",
+        "href": "ShoesProducts",
         "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/shoes.webp"
     },
     {
         "id": 3,
         "name": "Badminton Shirt",
-        "href": "Badminton-Shirt",
+        "href": "ShirtProducts",
         "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/shirt.webp"
     },
     {
         "id": 4,
         "name": "Badminton Skirt",
-        "href": "Badminton-Skirt",
+        "href": "SkirtProducts",
         "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/skirt.webp"
     },
     {
         "id": 5,
         "name": "Badminton Pants",
-        "href": "Badminton-Pants",
+        "href": "PantProducts",
         "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/paint.webp"
     },
     {
         "id": 6,
         "name": "Badminton Bag",
-        "href": "Badminton-Bag",
+        "href": "BagProducts",
         "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/bag.webp"
     },
     {
         "id": 7,
         "name": "Badminton Backpack",
-        "href": "Badminton-Backpack",
+        "href": "BackpackProducts",
         "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/balo.webp"
     },
     {
         "id": 8,
         "name": "Badminton Accessories",
-        "href": "Badminton-Accessories",
+        "href": "AccessoriesProducts",
         "imageSrc": "https://jungjung261.blob.core.windows.net/nextjs-project/VNB_SHOP/catalog/equip.webp"
     }
 ]

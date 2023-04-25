@@ -133,18 +133,20 @@ const PersonalSC: React.FC = () => {
                     )}
 
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('Ordered')}
+                        onPress={() => navigation.navigate('AllOrderedStack')}
                         className='px-4 mt-4 flex-row rounded-lg py-2 items-center'>
                         <View className='w-[40px] h-[40px] flex items-center justify-center rounded-3xl bg-blue-500'>
                             <AntDesign name='tags' size={27} color='white' />
                         </View>
 
                         <Text className='ml-2 text-xl font-medium'>
-                            Ordered
+                            All Ordered
                         </Text>
                     </TouchableOpacity>
 
-                    <View className='w-[50%] px-4 py-2 mt-4 flex-row items-center rounded-lg'>
+                    <TouchableOpacity
+                        className='w-[50%] px-4 py-2 mt-4 flex-row items-center rounded-lg'
+                        onPress={() => navigation.navigate('Cart')}>
                         <View className='w-[40px] h-[40px] flex items-center justify-center rounded-3xl bg-violet-500'>
                             <Ionicons
                                 name='cart-sharp'
@@ -153,7 +155,7 @@ const PersonalSC: React.FC = () => {
                             />
                         </View>
                         <Text className='ml-2 text-xl font-medium'>Cart</Text>
-                    </View>
+                    </TouchableOpacity>
 
                     <TouchableOpacity
                         className='w-[50%] px-4 py-2 mt-4 flex-row rounded-lg items-center'

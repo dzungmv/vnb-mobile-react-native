@@ -2,13 +2,7 @@ import {
     CompositeNavigationProp,
     useNavigation,
 } from '@react-navigation/native';
-import {
-    Dimensions,
-    Image,
-    Text,
-    TouchableHighlight,
-    View,
-} from 'react-native';
+import { Dimensions, Image, TouchableHighlight, View } from 'react-native';
 
 import catalogs from './../../components/ui-data/catalog.json';
 
@@ -28,6 +22,7 @@ const CatalogCmp: React.FC = () => {
             {catalogs.map((catalog: CatalogCmpProps) => {
                 return (
                     <TouchableHighlight
+                        className=' rounded-[10px]'
                         key={catalog.id}
                         style={{
                             width: width / 3 - 25,

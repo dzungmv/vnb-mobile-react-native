@@ -1,5 +1,4 @@
 import { AntDesign } from '@expo/vector-icons';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
@@ -21,14 +20,14 @@ import {
     CompositeNavigationProp,
     useNavigation,
 } from '@react-navigation/native';
+import HeaderCmp from '../../components/common/header';
 import NotFound from '../../components/common/not-found';
 import { ProductCard, ProductType } from '../../components/types';
 
 const gap = 10;
 Config.SERVER_URL;
 
-const ProductsSC: React.FC = () => {
-    const navigation = useNavigation<CompositeNavigationProp<any, any>>();
+const PantProductsSC: React.FC = () => {
     const [searchContainer, setSearchContainer] = useState<boolean>(false);
 
     const [products, setProducts] = useState<ProductType[]>([]);
@@ -42,7 +41,7 @@ const ProductsSC: React.FC = () => {
             try {
                 setIsLoading(true);
                 const res = await axios(
-                    `http://localhost:8080/api/vnb/v1/product/get-products?page=${page}&limit=10&sort=${sort}`
+                    `http://localhost:8080/api/vnb/v1/product/get-products?page=${page}&limit=10&type=pant&sort=${sort}`
                 );
 
                 if (res?.data?.data?.length === 0) {
@@ -61,7 +60,7 @@ const ProductsSC: React.FC = () => {
                 setPage(1);
 
                 const res = await axios(
-                    `http://localhost:8080/api/vnb/v1/product/get-products?page=${page}&limit=10&sort=${sort}`
+                    `http://localhost:8080/api/vnb/v1/product/get-products?page=${page}&limit=10&type=pant&sort=${sort}`
                 );
 
                 if (res?.data?.data?.length === 0) {
@@ -93,15 +92,8 @@ const ProductsSC: React.FC = () => {
     };
 
     return (
-        <SafeAreaView className='flex-1 bg-[#cefff1]'>
-            <View className='flex-row items-center justify-between gap-4 px-3'>
-                <Text className=' text-2xl font-bold'>Product</Text>
-                <TouchableOpacity
-                    className=' h-10 w-10 flex items-center justify-center rounded-full bg-gray-300'
-                    onPress={() => setSearchContainer(!searchContainer)}>
-                    <FontAwesome name='search' size={25} />
-                </TouchableOpacity>
-            </View>
+        <SafeAreaView className='flex-1 bg-[#c8fff2]'>
+            <HeaderCmp title='Pant' />
             {searchContainer && (
                 <Search closeSearch={() => setSearchContainer(false)} />
             )}
@@ -170,7 +162,7 @@ const ProductsSC: React.FC = () => {
     );
 };
 
-export default ProductsSC;
+export default PantProductsSC;
 
 const ProductItem: React.FC<ProductCard> = ({
     _id,

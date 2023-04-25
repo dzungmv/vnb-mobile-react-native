@@ -206,7 +206,7 @@ const ProductDetails = () => {
                                     />
                                 </TouchableOpacity>
                                 <TextInput
-                                    className='flex text-2xl px-10 border border-gray-300 rounded-xl'
+                                    className='flex px-10 border border-gray-300 rounded-xl'
                                     textAlign='center'
                                     keyboardType='numeric'
                                     value={quantity.toString()}
@@ -217,6 +217,8 @@ const ProductDetails = () => {
                                         textAlignVertical: 'center',
                                         paddingBottom: 0,
                                         paddingTop: 0,
+                                        height: 32,
+                                        fontSize: 18,
                                     }}
                                 />
                                 <TouchableOpacity

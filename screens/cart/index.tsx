@@ -22,6 +22,7 @@ import {
     useNavigation,
 } from '@react-navigation/native';
 import LoadingScreen from '../../components/common/loading-screen';
+import NotFound from '../../components/common/not-found';
 
 const CartSC: React.FC = () => {
     const navigation = useNavigation<CompositeNavigationProp<any, any>>();
@@ -170,20 +171,7 @@ const CartSC: React.FC = () => {
                     })}
                 </ScrollView>
             ) : (
-                <View className='mt-5 flex justify-center items-center'>
-                    <AnimatedLottieView
-                        style={{
-                            width: 300,
-                            height: 300,
-                        }}
-                        source={animation}
-                        autoPlay
-                        loop
-                    />
-                    <Text className='mt-3 text-2xl font-semibold text-blue-500'>
-                        No cart
-                    </Text>
-                </View>
+                <NotFound title='Cart empty' />
             )}
 
             {isPending && <LoadingScreen />}

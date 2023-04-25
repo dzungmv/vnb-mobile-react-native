@@ -1,14 +1,11 @@
-import { AntDesign, Entypo, FontAwesome, Ionicons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import CartSC from '../../screens/cart';
-import NofiicationsSC from '../../screens/notifications';
 import OrderSC from '../../screens/order';
-import PersonalSC from '../../screens/personal';
 import { CartStack } from '../stacks/cart-stack';
 import { HomeStack } from '../stacks/home-stack';
+import { PersonalStack } from '../stacks/personal-stack';
 import { ProductStack } from '../stacks/product-stack';
 import { UserTypes } from '../types';
 
@@ -96,7 +93,7 @@ export default function TabNavigation() {
                     ),
                 }}
                 name='Profile'
-                component={PersonalSC}
+                component={PersonalStack}
             />
         </Tab.Navigator>
     );

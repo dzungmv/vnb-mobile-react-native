@@ -1,6 +1,8 @@
 import {
     CompositeNavigationProp,
+    RouteProp,
     useNavigation,
+    useRoute,
 } from '@react-navigation/native';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -14,21 +16,33 @@ import {
 } from 'react-native';
 import { View } from 'react-native-animatable';
 import { useSelector } from 'react-redux';
+import { AntDesign } from '@expo/vector-icons';
 import HeaderCmp from '../../components/common/header';
+
 import LoadingScreen from '../../components/common/loading-screen';
 import NotFound from '../../components/common/not-found';
 import { CartType, OrderType, UserTypes } from '../../components/types';
+import moment from 'moment';
 
-const OrderSC = () => {
+const OrderedDetailsSC = () => {
     const navigation = useNavigation<CompositeNavigationProp<any, any>>();
     const user: UserTypes = useSelector((state: any) => state.user.user);
-    const [ordered, setOrdered] = useState<OrderType[]>([]);
-    const [isPending, setIsPending] = useState(false);
+
     const [isCancelPending, setIsCancelPending] = useState(false);
 
-    const data: OrderType[] = ordered?.sort((x: OrderType, y: OrderType) => {
-        return new Date(x.updatedAt) < new Date(y.updatedAt) ? 1 : -1;
-    });
+    const router = useRoute<
+        RouteProp<
+            Record<
+                string,
+                {
+                    data: OrderType;
+                }
+            >,
+            string
+        >
+    >();
+
+    const { data } = router.params;
 
     const HANDLE = {
         cancelOrder: async () => {
@@ -37,7 +51,7 @@ const OrderSC = () => {
                 await axios.put(
                     `http://localhost:8080/api/vnb/v1/user/update-order`,
                     {
-                        orderId: data[0]?._id,
+                        orderId: data?._id,
                         status: 'cancelled',
                     },
                     {
@@ -50,7 +64,6 @@ const OrderSC = () => {
 
                 setIsCancelPending(false);
                 Alert.alert('Order cancelled');
-                // refresh
                 navigation.navigate('Ordered');
             } catch (error: any) {
                 setIsCancelPending(false);
@@ -61,32 +74,14 @@ const OrderSC = () => {
         },
     };
 
-    useEffect(() => {
-        (async () => {
-            try {
-                setIsPending(true);
-                const res = await axios.get(
-                    `http://localhost:8080/api/vnb/v1/user/get-order`,
-                    {
-                        headers: {
-                            authorization: user?.tokens?.accessToken,
-                            'x-client-id': user?.user?._id,
-                        },
-                    }
-                );
-
-                setOrdered(res?.data?.data?.orders);
-                setIsPending(false);
-            } catch (error) {
-                setIsPending(false);
-            }
-        })();
-    }, []);
-
     return (
         <SafeAreaView className='flex-1 bg-white'>
-            <HeaderCmp title='Ordered' />
-            {data && data.length > 0 ? (
+            <View className='px-3'>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <AntDesign name='arrowleft' size={32} color='black' />
+                </TouchableOpacity>
+            </View>
+            {data ? (
                 <ScrollView>
                     <View className='px-4 mt-7'>
                         <View className=' flex-row items-start'>
@@ -95,8 +90,8 @@ const OrderSC = () => {
                                     className='w-4 h-4 rounded-full'
                                     style={{
                                         backgroundColor:
-                                            data[0]?.status === 'cancelled' ||
-                                            data[0]?.status === 'returns'
+                                            data?.status === 'cancelled' ||
+                                            data?.status === 'returns'
                                                 ? '#E2E8F0'
                                                 : '#FF2461',
                                     }}></View>
@@ -104,8 +99,8 @@ const OrderSC = () => {
                                     className='w-[5px] h-[90px]'
                                     style={{
                                         backgroundColor:
-                                            data[0]?.status === 'cancelled' ||
-                                            data[0]?.status === 'returns'
+                                            data?.status === 'cancelled' ||
+                                            data?.status === 'returns'
                                                 ? '#E2E8F0'
                                                 : '#FF2461',
                                     }}></View>
@@ -115,8 +110,8 @@ const OrderSC = () => {
                                     className='text-lg'
                                     style={{
                                         color:
-                                            data[0]?.status === 'cancelled' ||
-                                            data[0]?.status === 'returns'
+                                            data?.status === 'cancelled' ||
+                                            data?.status === 'returns'
                                                 ? '#E2E8F0'
                                                 : 'black',
                                     }}>
@@ -126,8 +121,8 @@ const OrderSC = () => {
                                     className='text-base'
                                     style={{
                                         color:
-                                            data[0]?.status === 'cancelled' ||
-                                            data[0]?.status === 'returns'
+                                            data?.status === 'cancelled' ||
+                                            data?.status === 'returns'
                                                 ? '#E2E8F0'
                                                 : 'black',
                                     }}>
@@ -141,8 +136,8 @@ const OrderSC = () => {
                                     className='w-4 h-4 rounded-full'
                                     style={{
                                         backgroundColor:
-                                            data[0]?.status === 'shipping' ||
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'shipping' ||
+                                            data?.status === 'completed'
                                                 ? '#FF2461'
                                                 : '#E2E8F0',
                                     }}></View>
@@ -150,8 +145,8 @@ const OrderSC = () => {
                                     className='w-[5px] h-[90px]'
                                     style={{
                                         backgroundColor:
-                                            data[0]?.status === 'shipping' ||
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'shipping' ||
+                                            data?.status === 'completed'
                                                 ? '#FF2461'
                                                 : '#E2E8F0',
                                     }}></View>
@@ -161,8 +156,8 @@ const OrderSC = () => {
                                     className='text-lg '
                                     style={{
                                         color:
-                                            data[0]?.status === 'shipping' ||
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'shipping' ||
+                                            data?.status === 'completed'
                                                 ? 'black'
                                                 : '#E2E8F0',
                                     }}>
@@ -172,8 +167,8 @@ const OrderSC = () => {
                                     className='text-base'
                                     style={{
                                         color:
-                                            data[0]?.status === 'shipping' ||
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'shipping' ||
+                                            data?.status === 'completed'
                                                 ? 'black'
                                                 : '#E2E8F0',
                                     }}>
@@ -187,8 +182,8 @@ const OrderSC = () => {
                                     className='w-4 h-4 rounded-full'
                                     style={{
                                         backgroundColor:
-                                            data[0]?.status === 'shipping' ||
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'shipping' ||
+                                            data?.status === 'completed'
                                                 ? '#FF2461'
                                                 : '#E2E8F0',
                                     }}></View>
@@ -196,8 +191,8 @@ const OrderSC = () => {
                                     className='w-[5px] h-[90px]'
                                     style={{
                                         backgroundColor:
-                                            data[0]?.status === 'shipping' ||
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'shipping' ||
+                                            data?.status === 'completed'
                                                 ? '#FF2461'
                                                 : '#E2E8F0',
                                     }}></View>
@@ -207,8 +202,8 @@ const OrderSC = () => {
                                     className='text-lg '
                                     style={{
                                         color:
-                                            data[0]?.status === 'shipping' ||
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'shipping' ||
+                                            data?.status === 'completed'
                                                 ? 'black'
                                                 : '#E2E8F0',
                                     }}>
@@ -218,8 +213,8 @@ const OrderSC = () => {
                                     className='text-base'
                                     style={{
                                         color:
-                                            data[0]?.status === 'shipping' ||
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'shipping' ||
+                                            data?.status === 'completed'
                                                 ? 'black'
                                                 : '#E2E8F0',
                                     }}>
@@ -233,12 +228,12 @@ const OrderSC = () => {
                                     className='w-4 h-4 rounded-full'
                                     style={{
                                         backgroundColor:
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'completed'
                                                 ? '#FF2461'
                                                 : '#E2E8F0',
                                     }}></View>
-                                {(data[0]?.status === 'cancelled' ||
-                                    data[0]?.status === 'returns') && (
+                                {(data?.status === 'cancelled' ||
+                                    data?.status === 'returns') && (
                                     <View
                                         className='w-[5px] h-[90px]'
                                         style={{
@@ -251,7 +246,7 @@ const OrderSC = () => {
                                     className='text-lg'
                                     style={{
                                         color:
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'completed'
                                                 ? 'black'
                                                 : '#E2E8F0',
                                     }}>
@@ -261,7 +256,7 @@ const OrderSC = () => {
                                     className='text-base'
                                     style={{
                                         color:
-                                            data[0]?.status === 'completed'
+                                            data?.status === 'completed'
                                                 ? 'black'
                                                 : '#E2E8F0',
                                     }}>
@@ -269,8 +264,8 @@ const OrderSC = () => {
                                 </Text>
                             </View>
                         </View>
-                        {(data[0]?.status === 'cancelled' ||
-                            data[0]?.status === 'returns') && (
+                        {(data?.status === 'cancelled' ||
+                            data?.status === 'returns') && (
                             <View className='flex-row items-start'>
                                 <View className='flex items-center'>
                                     <View
@@ -299,7 +294,7 @@ const OrderSC = () => {
                         )}
                     </View>
                     <View className='px-4 mt-10'>
-                        {data[0]?.products?.map((item: CartType) => {
+                        {data?.products?.map((item: CartType) => {
                             return (
                                 <View
                                     key={item?._id}
@@ -322,12 +317,17 @@ const OrderSC = () => {
                         })}
                     </View>
 
-                    <View className='mt-4 flex-row justify-end mx-4 pt-2 border-t border-gray-200'>
-                        <Text className='text-base'>Total:</Text>
-
-                        <Text className='text-base ml-1 text-primary font-medium'>
-                            {data[0]?.total?.toLocaleString()}
+                    <View className='mt-4 flex-row justify-between items-center mx-4 pt-2 border-t border-gray-200'>
+                        <Text className='text-gray-500'>
+                            {moment(data?.createdAt).format('LLL')}
                         </Text>
+                        <View className='flex-row items-center'>
+                            <Text className='text-base'>Total:</Text>
+
+                            <Text className='text-base ml-1 text-primary font-medium'>
+                                {data?.total?.toLocaleString()}
+                            </Text>
+                        </View>
                     </View>
 
                     <View className='px-4 mt-6'>
@@ -337,18 +337,18 @@ const OrderSC = () => {
 
                         <View className='pl-5 pb-10'>
                             <Text className='text-base'>
-                                Full name: {data[0]?.fullname}
+                                Full name: {data?.fullname}
                             </Text>
                             <Text className='text-base'>
-                                Phone: {data[0]?.phone}
+                                Phone: {data?.phone}
                             </Text>
                             <Text className='text-base'>
-                                Address: {data[0]?.address}
+                                Address: {data?.address}
                             </Text>
                         </View>
                     </View>
 
-                    {data[0]?.status === 'pending' && (
+                    {data?.status === 'pending' && (
                         <View className='mb-10 px-4'>
                             <TouchableOpacity
                                 className='border border-gray-400 py-3 rounded-xl flex items-center'
@@ -364,9 +364,9 @@ const OrderSC = () => {
                 <NotFound title='Ordered empty' />
             )}
 
-            {isPending || (isCancelPending && <LoadingScreen />)}
+            {isCancelPending && <LoadingScreen />}
         </SafeAreaView>
     );
 };
 
-export default OrderSC;
+export default OrderedDetailsSC;
