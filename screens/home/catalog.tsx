@@ -2,7 +2,12 @@ import {
     CompositeNavigationProp,
     useNavigation,
 } from '@react-navigation/native';
-import { Dimensions, Image, TouchableHighlight, View } from 'react-native';
+import {
+    Dimensions,
+    Image,
+    ScrollView,
+    TouchableHighlight,
+} from 'react-native';
 
 import catalogs from './../../components/ui-data/catalog.json';
 
@@ -18,17 +23,26 @@ const CatalogCmp: React.FC = () => {
     const width = Dimensions.get('window').width;
 
     return (
-        <View className='px-5 flex-row items-center gap-4 flex-wrap justify-center'>
+        <ScrollView
+            horizontal={true}
+            contentContainerStyle={{
+                paddingHorizontal: 10,
+                paddingVertical: 10,
+            }}>
             {catalogs.map((catalog: CatalogCmpProps) => {
                 return (
                     <TouchableHighlight
-                        className=' rounded-[10px]'
+                        className=' rounded-[10px]  mr-2'
                         key={catalog.id}
                         style={{
                             width: width / 3 - 25,
                             height: 100,
                         }}
-                        onPress={() => navigation.navigate(catalog.href)}>
+                        onPress={() =>
+                            navigation.navigate('Products', {
+                                screen: catalog?.href,
+                            })
+                        }>
                         <Image
                             source={{
                                 uri: catalog.imageSrc,
@@ -38,7 +52,7 @@ const CatalogCmp: React.FC = () => {
                     </TouchableHighlight>
                 );
             })}
-        </View>
+        </ScrollView>
     );
 };
 

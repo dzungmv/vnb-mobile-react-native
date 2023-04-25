@@ -41,7 +41,7 @@ const ProductsSC: React.FC = () => {
         loadMore: async () => {
             try {
                 setIsLoading(true);
-                const res = await axios(
+                const res = await axios.get(
                     `http://localhost:8080/api/vnb/v1/product/get-products?page=${page}&limit=10&sort=${sort}`
                 );
 
@@ -60,7 +60,7 @@ const ProductsSC: React.FC = () => {
                 setHasMore(true);
                 setPage(1);
 
-                const res = await axios(
+                const res = await axios.get(
                     `http://localhost:8080/api/vnb/v1/product/get-products?page=${page}&limit=10&sort=${sort}`
                 );
 
