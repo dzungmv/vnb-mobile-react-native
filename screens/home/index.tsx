@@ -11,7 +11,7 @@ import {
     View,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import { kawasaki, yonex } from '../../assets';
+import { adidas, kawasaki, lining, yonex } from '../../assets';
 import HeaderCmp from '../../components/common/header';
 import LoadingScreen from '../../components/common/loading-screen';
 import { UserTypes } from '../../components/types';
@@ -79,13 +79,22 @@ const HomeSC: React.FC = () => {
             <HeaderCmp title='Home' isHome />
 
             <ScrollView>
-                <View className='mt-10'>
+                <View className='px-4 mt-5'>
+                    <Text className='text-lg font-medium text-gray-500'>
+                        Hello, {user?.user?.name}
+                    </Text>
+
+                    <Text className='font-medium text-2xl'>
+                        Find your favorite badminton products
+                    </Text>
+                </View>
+                <View className='mt-5'>
                     <CatalogCmp />
                 </View>
 
-                <View className='px-3 mt-5 flex-row items-center'>
+                <View className='px-4 mt-10 flex-row items-center'>
                     <View className='w-[50%] h-[500px]'>
-                        <View className='h-[60%] border border-gray-200 px-1 rounded-xl flex justify-between p-2 relative overflow-hidden'>
+                        <View className='h-[60%] border rounded-xl flex justify-between p-2 border-[#3644b7] mr-2'>
                             <Image
                                 source={yonex}
                                 resizeMode='contain'
@@ -93,17 +102,16 @@ const HomeSC: React.FC = () => {
                             />
 
                             <View>
-                                <Text className='text-base text-start '>
+                                <Text className='text-base text-start text-[#3644b7]'>
                                     Yonex Co., Ltd. is a Japanese sports
                                     equipment manufacturing company. Yonex
                                     produces equipment and apparel for tennis,
                                     badminton, golf, and running
                                 </Text>
                             </View>
-                            <View className='bg-[#3644b7] w-[100px] h-[100px] absolute z-[-1] rounded-full right-[-50] top-[-20]'></View>
                         </View>
 
-                        <View className='h-[40%] border border-gray-200 px-1 rounded-xl mt-4 flex justify-between p-2 bg-[#f5e3c2]'>
+                        <View className='h-[40%] border px-1 rounded-xl mt-4 flex justify-between p-2 border-[#edbd62] mr-2'>
                             <Image
                                 source={kawasaki}
                                 resizeMode='contain'
@@ -111,7 +119,7 @@ const HomeSC: React.FC = () => {
                             />
 
                             <View>
-                                <Text className='text-base'>
+                                <Text className='text-base text-[#edbd62]'>
                                     KAWASAKI Badminton was founded in 1915 in
                                     Japan, and created world first carbon racket
                                     in 1983 named
@@ -121,35 +129,33 @@ const HomeSC: React.FC = () => {
                     </View>
 
                     <View className='w-[50%] h-[500px]'>
-                        <View className='h-[40%] border border-gray-200 px-1 rounded-xl flex justify-between p-2 relative z-1 overflow-hidden'>
+                        <View className='h-[40%] border px-1 rounded-xl flex justify-between p-2 border-[#d781f0] ml-2'>
                             <Image
-                                source={yonex}
+                                source={adidas}
                                 resizeMode='contain'
-                                className='w-[100px] h-[100px] -mt-8'
+                                className='w-[50px] h-[50px]'
                             />
 
                             <View>
-                                <Text className='text-base text-start'>
-                                    Yonex Co., Ltd. is a Japanese sports
-                                    equipment manufacturing company.
+                                <Text className='text-base text-[#d781f0]'>
+                                    Adidas AG is a German multinational
+                                    corporation, founded in Bavaria.
                                 </Text>
                             </View>
-
-                            <View className='bg-[#925ff6] w-[100px] h-[100px] absolute z-[-1] rounded-full right-[-50]'></View>
                         </View>
 
-                        <View className='h-[60%] border border-gray-200 px-1 rounded-xl mt-4 flex justify-between p-2 bg-[#925ff6]'>
+                        <View className='h-[60%] border px-1 rounded-xl mt-4 flex justify-between p-2 border-[#925ff6] ml-2'>
                             <Image
-                                source={kawasaki}
+                                source={lining}
                                 resizeMode='contain'
-                                className='w-[100px] h-[100px] -mt-10'
+                                className='w-[100px] h-[100px] -mt-8 -ml-3'
                             />
 
                             <View>
-                                <Text className='text-base'>
-                                    KAWASAKI Badminton was founded in 1915 in
-                                    Japan, and created world first carbon racket
-                                    in 1983 named
+                                <Text className='text-base text-[#925ff6]'>
+                                    Li-Ning Company Limited is a Chinese
+                                    sportswear and sports equipment company
+                                    founded by former Olympic gymnast Li Ning
                                 </Text>
                             </View>
                         </View>

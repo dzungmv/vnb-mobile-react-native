@@ -26,7 +26,7 @@ const CatalogCmp: React.FC = () => {
         <ScrollView
             horizontal={true}
             contentContainerStyle={{
-                paddingHorizontal: 10,
+                paddingHorizontal: 16,
                 paddingVertical: 10,
             }}>
             {catalogs.map((catalog: CatalogCmpProps) => {
